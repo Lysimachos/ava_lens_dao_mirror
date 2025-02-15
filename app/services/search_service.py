@@ -1,11 +1,13 @@
 from tavily import TavilyClient
 from app.config import TAVILY_API_KEY
+import streamlit as st
 
 
 class SearchService:
     """Service for searching DAO information using Tavily"""
     
     def __init__(self):
+        st.write(TAVILY_API_KEY)
         self.client = TavilyClient(api_key=TAVILY_API_KEY)
 
     def search_dao(self, dao_name: str, dao_info:str) -> dict:
