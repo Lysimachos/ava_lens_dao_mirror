@@ -23,7 +23,8 @@ class DAOAgent:
                     "success": True,
                     "response": "I can only help with DAO-related questions. Please ask something about DAOs.",
                     "dao_info": None,
-                    "image": None
+                    "image": None,
+                    "image_prompt": None
                 }
 
             # 2. Handle DAO-specific queries
@@ -31,7 +32,7 @@ class DAOAgent:
                 # Search for existing DAO
                 search_results = self.search_service.search_dao(
                     dao_name=classification["dao_name"],
-                    dao_info=classification["dao_info"]
+                    dao_info=classification["query_keywords"]
                 )
             else:
                 # Handle hypothetical/general DAO queries
@@ -46,7 +47,7 @@ class DAOAgent:
                 # Generate image concept
                 image_idea = self.llm.generate_image_idea(
                     dao_name=classification["dao_name"],
-                    dao_info=classification["dao_info"],
+                    dao_query=classification["query_keywords"],
                     dao_summary=search_results["summary"],
                     style=style
                 )
@@ -58,14 +59,16 @@ class DAOAgent:
                     "success": True,
                     "response": search_results["summary"],
                     "dao_info": search_results,
-                    "image": image
+                    "image": image,
+                    "image_prompt": image_prompt
                 }
             else:
                 return {
                     "success": True,
                     "response": "Could not find detailed information about this DAO.",
                     "dao_info": None,
-                    "image": None
+                    "image": None,
+                    "image_prompt": None
                 }
 
         except Exception as e:

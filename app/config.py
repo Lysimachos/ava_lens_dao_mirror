@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import logging
 
 # Load environment variables
 load_dotenv()
@@ -13,4 +14,9 @@ PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/512x512.png?text=DAO+Image"
 
 # Validation
 if not TAVILY_API_KEY or not VENICE_API_KEY:
-    print("Warning: Missing API keys in environment variables") 
+    print("Warning: Missing API keys in environment variables")
+
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+) 

@@ -1,4 +1,4 @@
-from tavily import Client
+from tavily import TavilyClient
 from app.config import TAVILY_API_KEY
 
 
@@ -6,14 +6,14 @@ class SearchService:
     """Service for searching DAO information using Tavily"""
     
     def __init__(self):
-        self.client = Client(api_key=TAVILY_API_KEY)
+        self.client = TavilyClient(api_key=TAVILY_API_KEY)
 
     def search_dao(self, dao_name: str, dao_info:str) -> dict:
         """Search for comprehensive DAO information"""
 
         try:
             query = (
-                f"{dao_name} decentralized autonomous organization DAO"
+                f"{dao_name}"
             )
             if dao_info:
                 query += f" {dao_info}"
@@ -23,9 +23,11 @@ class SearchService:
                 search_depth="advanced",
                 max_results=2
             )
-            
+            answers = [result_dict.get("content") for result_dict in results.get("results")]
+            answer = answers[0] if len(answers)>0 else ""
+            answer = answer + " " + answers[1] if len(answers)>1 else answer
             return {
-                "summary": results.get('answer', 'No information found'),
+                "summary": answer,
                 "urls": [r.get('url') for r in results.get('results', [])][:2]
             }
         except Exception as e:

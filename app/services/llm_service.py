@@ -34,15 +34,15 @@ class VeniceLLM:
         
         Return JSON with these fields:
         - dao_name: Name of specific DAO (null if none)
-        - dao_info: Keywords about what the DAO does/focuses on (null if none)
+        - query_keywords: Keywords from the query in a string with commas
         - is_dao_query: True if about DAOs
         - existing_dao: True if about a known DAO, false if hypothetical/general
         
         Examples:
-        "Tell me about MakerDAO" -> {{"dao_name": "MakerDAO", "dao_info": "null", "is_dao_query": true, "existing_dao": true}}
-        "What is a DAO?" -> {{"dao_name": null, "dao_info": "what is a DAO", "is_dao_query": true, "existing_dao": false}}
-        "Create a DAO for gaming" -> {{"dao_name": null, "dao_info": "Create a dao for gaming community", "is_dao_query": true, "existing_dao": false}}
-        "How is the weather?" -> {{"dao_name": null, "dao_info": null, "is_dao_query": false, "existing_dao": false}}"""
+        "Tell me about MakerDAO" -> {{"dao_name": "MakerDAO", "query_keywords": null, "is_dao_query": true, "existing_dao": true}}
+        "What is a DAO?" -> {{"dao_name": null, "query_keywords": "what is it DAO", "is_dao_query": true, "existing_dao": false}}
+        "Create a DAO for gaming" -> {{"dao_name": null, "query_keywords": "gaming community", "is_dao_query": true, "existing_dao": false}}
+        "How is the weather?" -> {{"dao_name": null, "query_keywords": null, "is_dao_query": false, "existing_dao": false}}"""
         
         try:
             response = self._call_api(prompt)
@@ -50,11 +50,11 @@ class VeniceLLM:
         except:
             return {"dao_name": None, "dao_info": None, "is_dao_query": False, "existing_dao": False}
 
-    def generate_image_idea(self, dao_name: str, dao_info: str, dao_summary: str, style: str = "modern") -> str:
+    def generate_image_idea(self, dao_name: str, dao_query: str, dao_summary: str, style: str = "modern") -> str:
         """Generate creative image idea for DAO visualization"""
         context = "\n".join(filter(None, [
             f"DAO Name: {dao_name}" if dao_name else None,
-            f"Focus: {dao_info}" if dao_info else None,
+            f"Focus: {dao_query}" if dao_query else None,
             f"Summary: {dao_summary}" if dao_summary else None
         ]))
         
@@ -81,6 +81,7 @@ class VeniceLLM:
         2. Includes specific style and composition details
         3. Adds technical aspects: 4K, detailed, professional
         4. Maintains crypto/blockchain aesthetic
+        5. Seperates elements with commas for clarity
 
         Example structure:
         ((main subject)), (supporting elements), style details, technical specs, composition
