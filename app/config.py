@@ -7,8 +7,8 @@ import streamlit as st
 load_dotenv()
 
 # API Keys
-TAVILY_API_KEY = st.secrets['TAVILY_API_KEY']
-VENICE_API_KEY = st.secrets['VENICE_API_KEY']
+TAVILY_API_KEY =st.secrets["TAVILY_API_KEY"]
+VENICE_API_KEY = st.secrets["VENICE_API_KEY"]
 
 # Constants
 PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/512x512.png?text=DAO+Image"
