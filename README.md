@@ -1,4 +1,5 @@
 # Ava Lens
+Turn DAOs into collectible art with AI-powered generative models.
 
 ## Deployment
 1. Clone the repository

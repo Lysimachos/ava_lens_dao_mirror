@@ -55,6 +55,7 @@ def main():
     with header_right:
         st.header("Ava Lens")
         st.subheader("Your Creative Guide to the DAO Universe")
+        st.markdown("### 🎨 Turn DAOs into collectible art with AI-powered generative models.")
 
     # Add spacing
     st.write("")
@@ -70,7 +71,7 @@ def main():
     with left_col:
         query = st.text_area(
             "",
-            placeholder="✨ Ask about a DAO or explore the world of decentralized organizations...",
+            placeholder="✨ Ask about a DAO or explore the world of decentralized organizations - we'll turn it into collectible art!",
             height=120
         )
 
@@ -94,7 +95,7 @@ def main():
             st.warning("🤔 Please enter a query first!")
             return
             
-        with st.spinner("🎨 Creating your unique DAO visualization..."):
+        with st.spinner("🎮 Generating Your DAO Character......"):
             try:
                 response = asyncio.run(process_query(agent, query, selected_style))
                 
