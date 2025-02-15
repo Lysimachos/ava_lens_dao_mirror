@@ -1,6 +1,5 @@
 import streamlit as st
 import asyncio
-from PIL import Image
 from app.services.search_service import SearchService
 from app.services.image_service import ImageService, VeniceAiModelStyles
 from app.services.agent_service import DAOAgent
@@ -16,80 +15,20 @@ def setup_page():
 def apply_custom_css():
     st.markdown("""
         <style>
-        /* Global styles */
-        * {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-        }
-        
-        /* Main container */
-        .main {
-            padding: 3rem;
-            background-color: #FFFFFF;
-        }
-        
-        /* Title styles - significantly larger */
-        .stMarkdown h1, .stHeader h1 {
-            color: #1E1E1E !important;
-            font-size: 4.5rem !important;  /* Much larger title */
-            font-weight: 800 !important;
-            margin-bottom: 1rem !important;
-            letter-spacing: -4px !important;
-            line-height: 1.1 !important;
-        }
-        
-        /* Description text - significantly larger */
-        .stMarkdown p:first-of-type {
-            color: #4A4A4A !important;
-            font-size: 2.5rem !important;  /* Much larger description */
-            font-weight: 400 !important;
-            margin-bottom: 2.5rem !important;
-            letter-spacing: -1px !important;
-            line-height: 1.2 !important;
-        }
-
-        /* Section headers */
-        h2 {
-            color: #1E1E1E;
-            font-size: 2.4rem !important;
-            font-weight: 600 !important;
-            margin: 2rem 0 !important;
-        }
-        
-        /* Regular text */
-        p, div {
-            font-size: 1.4rem !important;
-            line-height: 1.6 !important;
-            color: #2C2C2C;
-        }
-        
-        /* Clean up header area */
+        /* Clean layout */
         .block-container {
-            padding: 4rem 5rem;
+            padding: 2rem;
             max-width: 1800px;
-            margin: 0 auto;
         }
         
-        /* Remove default Streamlit elements */
+        /* Hide default elements */
         #MainMenu, footer, header {
             visibility: hidden;
         }
         
-        /* Streamlit elements styling */
-        .stTextArea textarea {
-            font-size: 1.4rem !important;
-            padding: 1.5rem !important;
-            border: 2px solid #E0E0E0;
-            border-radius: 15px;
-            background-color: #FFF;
-        }
-        
-        .stSelectbox > div > div {
-            font-size: 1.3rem !important;
-        }
-        
+        /* Simple button styling */
         .stButton button {
-            font-size: 1.4rem !important;
-            padding: 1.2rem 2rem;
+            width: 100%;
         }
         </style>
     """, unsafe_allow_html=True)
@@ -109,13 +48,16 @@ def main():
     
     with header_left:
         try:
-            st.image('app/ava_lens.jpg', width=240)
+            st.image('app/ava_lens.jpg', use_container_width=True)
         except Exception as e:
             st.error(f"Failed to load avatar: {str(e)}")
             
     with header_right:
-        st.markdown('<p>Ava Lens</p>', unsafe_allow_html=True)
-        st.markdown('<p>Your Creative Guide to the DAO Universe</p>', unsafe_allow_html=True)
+        st.header("Ava Lens")
+        st.subheader("Your Creative Guide to the DAO Universe")
+
+    # Add spacing
+    st.write("")
 
     # Initialize services
     search_service = SearchService()
@@ -123,8 +65,6 @@ def main():
     agent = DAOAgent(search_service, image_service)
 
     # Main input area
-    st.write("")
-    
     left_col, right_col = st.columns([2, 1])
     
     with left_col:
@@ -147,7 +87,7 @@ def main():
     st.write("")
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        generate_button = st.button("✨ Generate Magic", use_container_width=True)
+        generate_button = st.button("✨ Generate", use_container_width=True)
 
     if generate_button:
         if not query:
@@ -164,18 +104,18 @@ def main():
                         info_col, image_col = st.columns([3, 2])
                         
                         with info_col:
-                            st.markdown("## 📚 DAO Information")
                             st.write(response["dao_info"]["summary"])
                             
                             if response["dao_info"].get("urls"):
-                                st.markdown("## 🔗 Relevant Links")
+                                st.markdown("### 🔗 Relevant Links")
                                 for url in response["dao_info"]["urls"]:
                                     st.markdown(f"- [{url}]({url})")
                         
                         with image_col:
                             if response.get("image"):
-                                st.markdown("## 🎨 Visualization")
-                                st.image(response["image"], use_column_width=True)
+                                st.image(response["image"], use_container_width=True)
+                                st.markdown("### 🎨 Image Prompt")
+                                st.write(response.get("image_prompt"))
                             else:
                                 st.error("🎨 Failed to generate image.")
                     else:

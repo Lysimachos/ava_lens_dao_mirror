@@ -13,12 +13,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the application files
-COPY app app/
-COPY main.py .
+# Copy the rest of the application
+COPY . .
 
 # Expose the port Streamlit runs on
 EXPOSE 8501
 
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+
 # Command to run the application
-CMD ["streamlit", "run", "main.py", "--server.address=0.0.0.0", "--server.port=8501"] 
+CMD ["streamlit", "run", "main.py", "--server.port=8501", "--server.address=0.0.0.0"] 
