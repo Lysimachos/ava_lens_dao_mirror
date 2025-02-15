@@ -1,13 +1,14 @@
 import os
 from dotenv import load_dotenv
 import logging
+import streamlit as st
 
 # Load environment variables
 load_dotenv()
 
 # API Keys
-TAVILY_API_KEY = os.getenv("TAVILY_API_KEY")
-VENICE_API_KEY = os.getenv("VENICE_API_KEY")
+TAVILY_API_KEY = st.secrets['TAVILY_API_KEY']
+VENICE_API_KEY = st.secrets['VENICE_API_KEY']
 
 # Constants
 PLACEHOLDER_IMAGE_URL = "https://via.placeholder.com/512x512.png?text=DAO+Image"
