@@ -48,7 +48,7 @@ def main():
     
     with header_left:
         try:
-            st.image('app/ava_lens.jpg', use_container_width=True)
+            st.image('app/ava_lens.jpg')
         except Exception as e:
             st.error(f"Failed to load avatar: {str(e)}")
             
@@ -113,7 +113,7 @@ def main():
                         
                         with image_col:
                             if response.get("image"):
-                                st.image(response["image"], use_container_width=True)
+                                st.image(response["image"])
                                 st.markdown("### 🎨 Image Prompt")
                                 st.write(response.get("image_prompt"))
                             else:
