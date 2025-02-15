@@ -1,5 +1,6 @@
 from tavily import TavilyClient
 from app.config import TAVILY_API_KEY
+import os
 
 class SearchService:
     """Service for searching DAO information using Tavily"""
